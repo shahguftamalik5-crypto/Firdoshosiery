@@ -3,67 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First E-Commerce Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Firdos Hosiery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .hero {
+            background-color: #e2e2e9;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+        }
+        .hero p {
+            color: #555;
+            margin-top: 5px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #1a1a2e;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-title {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e94560;
+            margin-bottom: 15px;
+        }
+        .buy-btn {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .buy-btn:hover {
+            background-color: #128c7e;
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">ShopZone</div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="cart">Cart (0)</div>
+        Firdos Hosiery
     </header>
 
-    <section class="hero">
-        <h1>Welcome to ShopZone</h1>
-        <p>Find the best deals on your favorite products!</p>
-    </section>
+    <div class="hero">
+        <h1>Welcome to Firdos Hosiery</h1>
+        <p>Find the best deals on your favorite clothes!</p>
+    </div>
 
-    <main>
-        <h2>Featured Products</h2>
-        <div class="product-grid">
-            
+    <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products-grid">
+
             <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Product 1">
-                <h3>Cool Tech Widget</h3>
-                <p class="price">$19.99</p>
-                <button class="add-to-cart">Add to Cart</button>
+                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" alt="Product 1">
+                <div class="product-title">Premium Cotton T-Shirt</div>
+                <div class="product-price">₹499</div>
+                <a href="https://wa.me/17017859728?text=Hello!%20I%20want%20to%20buy%20Premium%20Cotton%20T-Shirt%20for%20₹499" target="_blank" class="buy-btn">Order on WhatsApp</a>
             </div>
 
             <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Product 2">
-                <h3>Classic Backpack</h3>
-                <p class="price">$39.99</p>
-                <button class="add-to-cart">Add to Cart</button>
+                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500" alt="Product 2">
+                <div class="product-title">Stylish Hoodie</div>
+                <div class="product-price">₹999</div>
+                <a href="https://wa.me/17017859728?text=Hello!%20I%20want%20to%20buy%20Stylish%20Hoodie%20for%20₹999" target="_blank" class="buy-btn">Order on WhatsApp</a>
             </div>
 
             <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Product 3">
-                <h3>Wireless Headphones</h3>
-                <p class="price">$59.99</p>
-                <button class="add-to-cart">Add to Cart</button>
-            </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Product 4">
-                <h3>Minimalist Watch</h3>
-                <p class="price">$89.99</p>
-                <button class="add-to-cart">Add to Cart</button>
+                <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500" alt="Product 3">
+                <div class="product-title">Casual Sweatshirt</div>
+                <div class="product-price">₹799</div>
+                <a href="https://wa.me/17017859728?text=Hello!%20I%20want%20to%20buy%20Casual%20Sweatshirt%20for%20₹799" target="_blank" class="buy-btn">Order on WhatsApp</a>
             </div>
 
         </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 ShopZone. All rights reserved.</p>
-    </footer>
+    </div>
 
 </body>
 </html>
