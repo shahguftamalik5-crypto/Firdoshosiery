@@ -276,6 +276,23 @@
             background: var(--bg-color);
             color: var(--text-color);
         }
+        /* Style for File/Image upload container */
+        .file-label {
+            display: block;
+            text-align: center;
+            background: #f0f0f0;
+            padding: 10px;
+            border: 1px dashed #777;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+        }
+        .dark-mode .file-label {
+            background: #2a2a2a;
+            color: #fff;
+        }
         .submit-product-btn {
             width: 100%;
             background: #002f34;
@@ -367,13 +384,15 @@
                 <option value="sweatshirt">Sweatshirts</option>
                 <option value="socks">Socks</option>
             </select>
-            <input type="text" id="newImg" placeholder="Image URL (or leave empty)">
+            
+            <label class="file-label" for="newImgFile" id="fileLabelText">📸 Choose Image from Camera/Gallery</label>
+            <input type="file" id="newImgFile" accept="image/*" style="display: none;" onchange="updateFileName()">
+            
             <button class="submit-product-btn" onclick="addNewProduct()">Post Now</button>
         </div>
     </div>
 
     <script>
-        // Global Fallback Image URL
         const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500";
 
         const defaultProducts = [
@@ -385,7 +404,6 @@
 
         let currentCategory = 'all';
 
-        // Save & Load Dark Mode Settings from LocalStorage
         function checkDarkMode() {
             const isDark = localStorage.getItem('darkMode') === 'true';
             if (isDark) {
@@ -406,7 +424,16 @@
         function openModal() { document.getElementById('sellModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('sellModal').style.display = 'none'; }
 
-        // Render products with onerror handler for safe broken-image handling
+        function updateFileName() {
+            let fileInput = document.getElementById('newImgFile');
+            let label = document.getElementById('fileLabelText');
+            if(fileInput.files.length > 0) {
+                label.innerText = "✅ " + fileInput.files[0].name;
+                label.style.background = "#d4edda";
+                label.style.color = "#155724";
+            }
+        }
+
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
@@ -457,13 +484,29 @@
             let title = document.getElementById('newTitle').value;
             let price = document.getElementById('newPrice').value;
             let category = document.getElementById('newCategory').value;
-            let img = document.getElementById('newImg').value || fallbackImg;
+            let fileInput = document.getElementById('newImgFile');
 
             if(!title || !price) {
                 alert("Please fill out Title and Price");
                 return;
             }
 
+            // Agar user ne gallery se photo select ki hai toh use Base64 string banayenge
+            if(fileInput.files.length > 0) {
+                let file = fileInput.files[0];
+                let reader = new FileReader();
+                
+                reader.onloadend = function() {
+                    saveToLocalStorage(title, price, category, reader.result);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                // Agar koi photo select nahi ki toh fallback default image use hogi
+                saveToLocalStorage(title, price, category, fallbackImg);
+            }
+        }
+
+        function saveToLocalStorage(title, price, category, imgData) {
             let localProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
             
             let newProd = {
@@ -471,18 +514,23 @@
                 title: title,
                 price: price,
                 category: category,
-                img: img,
+                img: imgData,
                 badge: "NEW",
-                review: '"Newly added item by store manager"',
+                review: '"Newly added item via Mobile Camera"',
                 rating: "⭐⭐⭐⭐⭐ (5.0)"
             };
 
             localProducts.unshift(newProd);
             localStorage.setItem('customProducts', JSON.stringify(localProducts));
 
+            // Reset inputs
             document.getElementById('newTitle').value = '';
             document.getElementById('newPrice').value = '';
-            document.getElementById('newImg').value = '';
+            document.getElementById('newImgFile').value = '';
+            let label = document.getElementById('fileLabelText');
+            label.innerText = "📸 Choose Image from Camera/Gallery";
+            label.style.background = "";
+            label.style.color = "";
             
             closeModal();
             renderProducts();
