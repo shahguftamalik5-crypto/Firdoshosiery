@@ -6,243 +6,291 @@
     <title>Firdos Hosiery</title>
     <style>
         :root {
-            --bg-color: #f4f4f9;
-            --card-bg: white;
-            --text-color: #333;
-            --header-bg: #1a1a2e;
-            --primary-color: #e94560;
+            --bg-color: #f7f8f a;
+            --card-bg: #ffffff;
+            --text-main: #282c3f;
+            --text-muted: #7e818c;
+            --primary-color: #ff3f6c; /* Myntra Pink Touch */
+            --accent-green: #03a685; /* AJIO/Myntra Success Green */
         }
-        .dark-mode {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #f4f4f9;
-            --header-bg: #0f0f1a;
-            --primary-color: #ff4a6b;
-        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            transition: background 0.3s, color 0.3s;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 80px;
-        }
-        header {
-            background-color: var(--header-bg);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-        }
-        header h1 { font-size: 26px; }
-        
-        .dark-mode-btn {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        .search-container {
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 90px;
+        }
+
+        /* Premium Minimal Header */
+        header {
+            background-color: #ffffff;
+            padding: 15px;
             text-align: center;
-            margin: 20px auto;
-            max-width: 500px;
-            padding: 0 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #f5f5f6;
+        }
+        header h1 { 
+            font-size: 20px; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #1f222f;
+        }
+
+        /* Clean Search Bar */
+        .search-container {
+            padding: 0 12px;
+            margin: 15px auto;
+            max-width: 600px;
         }
         .search-container input {
             width: 100%;
-            padding: 10px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #eaeaec;
             outline: none;
-            background: var(--card-bg);
-            color: var(--text-color);
+            background: #ffffff;
+            color: var(--text-main);
+            font-size: 14px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
         }
+        .search-container input::placeholder {
+            color: #b0b2b8;
+        }
+
+        /* Horizontal Scrolling Categories like AJIO */
         .categories {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 5px 12px 15px 12px;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+        .categories::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome/Safari */
         }
         .cat-btn {
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 8px 15px;
+            background: #ffffff;
+            color: var(--text-main);
+            padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #eaeaec;
             cursor: pointer;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
         }
         .cat-btn.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
+            background: var(--text-main);
+            color: #ffffff;
+            border-color: var(--text-main);
         }
 
-        .slider {
-            max-width: 1200px;
-            margin: 0 auto 20px auto;
-            height: 200px;
-            background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-            border-radius: 8px;
-        }
-        .slider h2 { font-size: 28px; text-align: center; padding: 10px; }
-
+        /* Main Grid: 2 Columns on Mobile (AJIO/Myntra Style) */
         .container {
+            padding: 0 8px;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
+            margin: 0 auto;
         }
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns strictly */
+            gap: 8px;
         }
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 columns on Laptop */
+                gap: 20px;
+            }
+        }
+
+        /* Premium E-commerce Product Card */
         .product-card {
             background: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 0px; /* Sharp modern e-com edges */
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #f5f5f6;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
-        .badge {
+        
+        /* Transparent Heart/Wishlist Icon */
+        .wishlist-icon {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 5px;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #9496a0;
+            border: none;
+            z-index: 5;
         }
+
+        /* Admin Delete Cross */
         .delete-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,0,0,0.8);
-            color: white;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
             border: none;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 26px;
+            height: 26px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* Image Display Box */
+        .product-image-wrapper {
+            width: 100%;
+            padding-top: 130%; /* 3:4 aspect ratio for clothing */
+            position: relative;
+            background: #f9f9f9;
         }
         .product-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 220px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 5px;
+        }
+
+        /* Product Info Block */
+        .product-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .brand-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .product-title {
-            font-size: 18px;
-            margin: 10px 0 5px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .rating { color: #ffbc00; margin-bottom: 5px; font-size: 14px; }
-        .review-text { font-size: 12px; color: #777; font-style: italic; margin-bottom: 10px; }
+        
+        /* Price Row Like Myntra */
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
         .product-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #282c3f;
         }
+        .original-price {
+            font-size: 11px;
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+        .discount-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ff905a;
+        }
+
+        /* Elegant Order Button */
         .buy-btn {
-            display: inline-block;
-            background-color: #25d366;
+            display: block;
+            background-color: #25d366; /* WhatsApp Green */
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .info-section {
-            background: var(--card-bg);
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .info-box h3 { margin-bottom: 10px; color: var(--primary-color); }
-        .info-box p { margin: 5px 0; line-height: 1.5; }
-
-        footer {
-            background-color: var(--header-bg);
-            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 14px;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
+        /* Modern Floating Sell Button */
         .sell-btn-floating {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            background: white;
-            color: #002f34;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
+            background: #282c3f;
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
             text-decoration: none;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-            border: 4px solid;
-            border-image: linear-gradient(to right, #3a77ff, #002f34, #ffce32) 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            z-index: 999;
-        }
-        .sell-btn-floating span { font-size: 22px; }
-
-        .floating-whatsapp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25d366;
-            color: white;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            text-decoration: none;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
+            letter-spacing: 1px;
+            z-index: 99;
         }
 
+        /* Bottom Minimal Info Section */
+        .info-section {
+            background: #ffffff;
+            padding: 30px 20px;
+            margin-top: 5px;
+            border-top: 1px solid #eaeaec;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            font-size: 13px;
+        }
+        .info-box h3 { margin-bottom: 8px; font-size: 14px; color: #000; font-weight: 600; }
+        .info-box p { color: var(--text-muted); margin: 4px 0; line-height: 1.5; }
+
+        footer {
+            background: #282c3f;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #a9abb3;
+        }
+
+        /* Modal / Add Product Panel */
         .modal {
             display: none;
             position: fixed;
@@ -250,57 +298,57 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 2000;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
             justify-content: center;
             align-items: center;
         }
         .modal-content {
-            background: var(--card-bg);
-            color: var(--text-color);
+            background: #ffffff;
             padding: 25px;
             border-radius: 12px;
             width: 90%;
             max-width: 400px;
-            box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
             position: relative;
         }
-        .modal-content h3 { margin-bottom: 15px; font-size: 20px; text-align: center; }
+        .modal-content h3 { margin-bottom: 20px; font-size: 18px; text-align: center; font-weight: 700;}
         .modal-content input, .modal-content select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid #d4d5d9;
             border-radius: 6px;
             outline: none;
-            background: var(--bg-color);
-            color: var(--text-color);
+            font-size: 14px;
         }
         .file-label {
             display: block;
             text-align: center;
-            background: #f0f0f0;
-            padding: 10px;
-            border: 1px dashed #777;
+            background: #f5f5f6;
+            padding: 12px;
+            border: 1px dashed #9496a0;
             border-radius: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             cursor: pointer;
-            font-size: 14px;
-            color: #333;
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 500;
         }
-        .dark-mode .file-label { background: #2a2a2a; color: #fff; }
         .submit-product-btn {
             width: 100%;
-            background: #002f34;
+            background: var(--primary-color);
             color: white;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 6px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #777; }
+        .submit-product-btn:disabled { background: #d4d5d9; cursor: not-allowed; }
+        .close-modal { position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer; color: #a9abb3; }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -310,27 +358,21 @@
 
     <header>
         <h1>Firdos Hosiery</h1>
-        <button class="dark-mode-btn" id="modeBtn" onclick="toggleDarkMode()">🌙 Mode</button>
     </header>
 
-    <div class="slider">
-        <h2>Premium Quality Hosiery Items</h2>
-    </div>
-
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search for T-shirts, Hoodies, Socks..." onkeyup="filterProducts()">
+        <input type="text" id="searchInput" placeholder="Search brands, products, styles..." onkeyup="filterProducts()">
     </div>
 
     <div class="categories">
-        <button class="cat-btn active" onclick="selectCategory('all', this)">All</button>
+        <button class="cat-btn active" onclick="selectCategory('all', this)">All Products</button>
         <button class="cat-btn" onclick="selectCategory('tshirt', this)">T-Shirts</button>
-        <button class="cat-btn" onclick="selectCategory('hoodie', this)">Hoodies</button>
+        <button class="cat-btn" onclick="selectCategory('hoodie', this)">Hoodies & Jackets</button>
         <button class="cat-btn" onclick="selectCategory('sweatshirt', this)">Sweatshirts</button>
-        <button class="cat-btn" onclick="selectCategory('socks', this)">Socks</button>
+        <button class="cat-btn" onclick="selectCategory('socks', this)">Premium Socks</button>
     </div>
 
     <div class="container">
-        <h2 class="section-title">Our Products</h2>
         <div class="products-grid" id="productGrid">
             </div>
     </div>
@@ -338,54 +380,47 @@
     <div class="info-section">
         <div class="info-box">
             <h3>📞 Contact Us</h3>
-            <p><strong>Phone:</strong> +91 70178 59728</p>
-            <p><strong>Email:</strong> support@firdoshosiery.com</p>
+            <p><strong>WhatsApp:</strong> +91 70178 59728</p>
+            <p><strong>Email:</strong> customercare@firdoshosiery.com</p>
         </div>
         <div class="info-box">
-            <h3>📍 Shop Address</h3>
-            <p>Firdos Hosiery Store,</p>
-            <p>Main Market Road, Near Clock Tower,</p>
+            <h3>📍 Store Address</h3>
+            <p>Firdos Hosiery Wholesale & Retail,</p>
+            <p>Main Bazar, Near Clock Tower,</p>
             <p>Saharanpur, Uttar Pradesh - 247001</p>
-        </div>
-        <div class="info-box">
-            <h3>⏰ Opening Hours</h3>
-            <p><strong>Monday - Saturday:</strong> 10:00 AM - 09:00 PM</p>
-            <p><strong>Sunday:</strong> Closed</p>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Firdos Hosiery. All Rights Reserved. Designed for fast WhatsApp orders.</p>
+        <p>&copy; 2026 Firdos Hosiery. Powered by Cloud Sync.</p>
     </footer>
 
     <button class="sell-btn-floating" onclick="openModal()">
-        <span>+</span> SELL
+        <span>+</span> ADD ITEM
     </button>
-
-    <a href="https://wa.me/917017859728" class="floating-whatsapp" target="_blank">💬</a>
 
     <div class="modal" id="sellModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3>Add New Product</h3>
-            <input type="text" id="newTitle" placeholder="Product Title" required>
-            <input type="number" id="newPrice" placeholder="Price in ₹" required>
+            <h3>Upload New Design</h3>
+            <input type="text" id="newTitle" placeholder="Product Title / Name" required>
+            <input type="number" id="newPrice" placeholder="Selling Price (₹)" required>
             <select id="newCategory">
                 <option value="tshirt">T-Shirts</option>
-                <option value="hoodie">Hoodies</option>
+                <option value="hoodie">Hoodies & Jackets</option>
                 <option value="sweatshirt">Sweatshirts</option>
-                <option value="socks">Socks</option>
+                <option value="socks">Premium Socks</option>
             </select>
             
-            <label class="file-label" for="newImgFile" id="fileLabelText">📸 Choose Image from Camera/Gallery</label>
+            <label class="file-label" for="newImgFile" id="fileLabelText">📸 Capture from Camera / Gallery</label>
             <input type="file" id="newImgFile" accept="image/*" style="display: none;" onchange="updateFileName()">
             
-            <button class="submit-product-btn" onclick="addNewProduct()">Post Now</button>
+            <button class="submit-product-btn" id="submitBtn" onclick="addNewProduct()">Upload to Catalog</button>
         </div>
     </div>
 
     <script>
-        // Auto-configured keys from your Firebase Console screenshot
+        // Automatic configuration verified from your console screenshot
         const firebaseConfig = {
             apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOg7D-9vV_gXg8l8",
             authDomain: "firdos-hosiery.firebaseapp.com",
@@ -395,27 +430,12 @@
             appId: "1:738069771751:web:ab4c383e91129b05423fbe"
         };
         
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500";
         let currentCategory = 'all';
         let firebaseProducts = [];
-
-        function checkDarkMode() {
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                document.getElementById('modeBtn').innerText = "☀️ Light";
-            }
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            document.getElementById('modeBtn').innerText = isDark ? "☀️ Light" : "🌙 Dark";
-        }
 
         function openModal() { document.getElementById('sellModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('sellModal').style.display = 'none'; }
@@ -425,12 +445,13 @@
             let label = document.getElementById('fileLabelText');
             if(fileInput.files.length > 0) {
                 label.innerText = "✅ " + fileInput.files[0].name;
-                label.style.background = "#d4edda";
-                label.style.color = "#155724";
+                label.style.background = "#e6f7f4";
+                label.style.color = "#03a685";
+                label.style.borderColor = "#03a685";
             }
         }
 
-        // Fetch Live products from Global Cloud Database
+        // Live Cloud Stream Listener
         function listenToProducts() {
             db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
                 firebaseProducts = [];
@@ -441,18 +462,17 @@
                 });
                 renderProducts();
             }, (error) => {
-                console.log("Database fetch error: ", error);
+                console.log("Database Error: ", error);
             });
         }
 
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
-            
             let searchText = document.getElementById('searchInput').value.toLowerCase();
 
             if(firebaseProducts.length === 0) {
-                grid.innerHTML = `<p style="text-align:center; width:100%; padding:20px; font-style:italic; color:#777;">No items uploaded yet. Tap '+ SELL' to add clothes globally!</p>`;
+                grid.innerHTML = `<p style="text-align:center; grid-column: span 2; padding:40px; font-style:italic; color:#9496a0; font-size:13px;">No premium apparel added yet. Tap 'ADD ITEM' to sync.</p>`;
                 return;
             }
 
@@ -464,15 +484,25 @@
                     let card = document.createElement('div');
                     card.className = 'product-card';
                     
+                    // Display original tentative price to simulate clean AJIO style percentage tags
+                    let fauxOriginalPrice = Math.floor(parseInt(prod.price) * 1.4);
+
                     card.innerHTML = `
-                        <span class="badge">NEW</span>
+                        <button class="wishlist-icon">🤍</button>
                         <button class="delete-btn" onclick="deleteProduct('${prod.id}')">&times;</button>
-                        <img src="${prod.img}" alt="${prod.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
-                        <div class="product-title">${prod.title}</div>
-                        <div class="rating">⭐⭐⭐⭐⭐ (5.0)</div>
-                        <div class="review-text">"Premium Live Item"</div>
-                        <div class="product-price">₹${prod.price}</div>
-                        <a href="https://wa.me/917017859728?text=Hello!%20I%20want%20to%20buy%20${encodeURIComponent(prod.title)}%20for%20₹${prod.price}" target="_blank" class="buy-btn">Order on WhatsApp</a>
+                        <div class="product-image-wrapper">
+                            <img src="${prod.img}" alt="${prod.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                        </div>
+                        <div class="product-info">
+                            <div class="brand-name">Firdos</div>
+                            <div class="product-title">${prod.title}</div>
+                            <div class="price-row">
+                                <span class="product-price">₹${prod.price}</span>
+                                <span class="original-price">₹${fauxOriginalPrice}</span>
+                                <span class="discount-tag">(40% OFF)</span>
+                            </div>
+                            <a href="https://wa.me/917017859728?text=Hi!%20I'm%20interested%20in%20buying%20Firdos%20${encodeURIComponent(prod.title)}%20for%20₹${prod.price}" target="_blank" class="buy-btn">WhatsApp Order</a>
+                        </div>
                     `;
                     grid.appendChild(card);
                 }
@@ -487,26 +517,52 @@
             renderProducts();
         }
 
-        function filterProducts() {
-            renderProducts();
-        }
+        function filterProducts() { renderProducts(); }
 
+        // Built-in Smart Compressor to fix long value bytes errors
         function addNewProduct() {
             let title = document.getElementById('newTitle').value;
             let price = document.getElementById('newPrice').value;
             let category = document.getElementById('newCategory').value;
             let fileInput = document.getElementById('newImgFile');
+            let submitBtn = document.getElementById('submitBtn');
 
             if(!title || !price) {
-                alert("Please fill out Title and Price");
+                alert("Please add title and price details.");
                 return;
             }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Compressing & Syncing...";
 
             if(fileInput.files.length > 0) {
                 let file = fileInput.files[0];
                 let reader = new FileReader();
-                reader.onloadend = function() {
-                    uploadToFirebase(title, price, category, reader.result);
+                
+                reader.onload = function(event) {
+                    let img = new Image();
+                    img.onload = function() {
+                        let canvas = document.createElement('canvas');
+                        let MAX_WIDTH = 550; // Optimized dimension
+                        let MAX_HEIGHT = 700; 
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                        } else {
+                            if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        let ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        let compressedDataUrl = canvas.toDataURL("image/jpeg", 0.55); 
+                        uploadToFirebase(title, price, category, compressedDataUrl);
+                    }
+                    img.src = event.target.result;
                 }
                 reader.readAsDataURL(file);
             } else {
@@ -515,6 +571,7 @@
         }
 
         function uploadToFirebase(title, price, category, imgData) {
+            let submitBtn = document.getElementById('submitBtn');
             db.collection("products").add({
                 title: title,
                 price: price,
@@ -526,20 +583,26 @@
                 document.getElementById('newPrice').value = '';
                 document.getElementById('newImgFile').value = '';
                 let label = document.getElementById('fileLabelText');
-                label.innerText = "📸 Choose Image from Camera/Gallery";
-                label.style.background = ""; label.style.color = "";
+                label.innerText = "📸 Capture from Camera / Gallery";
+                label.style.background = ""; label.style.borderColor = ""; label.style.color = "";
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Upload to Catalog";
                 closeModal();
-            }).catch(err => alert("Error saving product: " + err + "\n\nTip: Double check if your Firestore Database is created in Test Mode!"));
+            }).catch(err => {
+                alert("Sync Error: " + err);
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Upload to Catalog";
+            });
         }
 
         function deleteProduct(id) {
-            if(confirm("Are you sure you want to delete this product globally?")) {
+            event.stopPropagation(); // Stops any overlapping clicks
+            if(confirm("Remove this premium listing from catalog?")) {
                 db.collection("products").doc(id).delete();
             }
         }
 
         window.onload = function() {
-            checkDarkMode();
             listenToProducts();
         };
     </script>
