@@ -276,7 +276,6 @@
             background: var(--bg-color);
             color: var(--text-color);
         }
-        /* Style for File/Image upload container */
         .file-label {
             display: block;
             text-align: center;
@@ -289,10 +288,7 @@
             font-size: 14px;
             color: #333;
         }
-        .dark-mode .file-label {
-            background: #2a2a2a;
-            color: #fff;
-        }
+        .dark-mode .file-label { background: #2a2a2a; color: #fff; }
         .submit-product-btn {
             width: 100%;
             background: #002f34;
@@ -304,15 +300,11 @@
             cursor: pointer;
             font-size: 16px;
         }
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #777;
-        }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #777; }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
 <body>
 
@@ -376,7 +368,7 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h3>Add New Product</h3>
-            <input type="text" id="newTitle" placeholder="Product Title (e.g. Graphic T-Shirt)" required>
+            <input type="text" id="newTitle" placeholder="Product Title" required>
             <input type="number" id="newPrice" placeholder="Price in ₹" required>
             <select id="newCategory">
                 <option value="tshirt">T-Shirts</option>
@@ -393,25 +385,29 @@
     </div>
 
     <script>
+        // Auto-configured keys from your Firebase Console screenshot
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOg7D-9vV_gXg8l8",
+            authDomain: "firdos-hosiery.firebaseapp.com",
+            projectId: "firdos-hosiery",
+            storageBucket: "firdos-hosiery.firebasestorage.app",
+            messagingSenderId: "738069771751",
+            appId: "1:738069771751:web:ab4c383e91129b05423fbe"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500";
-
-        const defaultProducts = [
-            { id: "d1", title: "Premium Cotton T-Shirt", price: "499", category: "tshirt", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500", badge: "SAVE 20%", review: '"Super soft fabric, perfect fit!" - Amit', rating: "⭐⭐⭐⭐★ (4.5)" },
-            { id: "d2", title: "Winter Special Hoodie", price: "999", category: "hoodie", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", badge: "HOT", review: '"Very warm and stylish." - Rahul', rating: "⭐⭐⭐⭐⭐ (5.0)" },
-            { id: "d3", title: "Casual Sweatshirt", price: "799", category: "sweatshirt", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500", badge: "", review: '"Good for daily wear." - Vicky', rating: "⭐⭐⭐⭐★ (4.2)" },
-            { id: "d4", title: "Ankle Cotton Socks (Pack of 3)", price: "299", category: "socks", img: "https://images.unsplash.com/photo-1582966772680-860e372bb558?w=500", badge: "Buy 1 Get 1", review: '"Extremely comfortable." - Sonu', rating: "⭐⭐⭐⭐⭐ (4.8)" }
-        ];
-
         let currentCategory = 'all';
+        let firebaseProducts = [];
 
         function checkDarkMode() {
             const isDark = localStorage.getItem('darkMode') === 'true';
             if (isDark) {
                 document.body.classList.add('dark-mode');
                 document.getElementById('modeBtn').innerText = "☀️ Light";
-            } else {
-                document.body.classList.remove('dark-mode');
-                document.getElementById('modeBtn').innerText = "🌙 Dark";
             }
         }
 
@@ -434,15 +430,33 @@
             }
         }
 
+        // Fetch Live products from Global Cloud Database
+        function listenToProducts() {
+            db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                firebaseProducts = [];
+                snapshot.forEach((doc) => {
+                    let data = doc.data();
+                    data.id = doc.id;
+                    firebaseProducts.push(data);
+                });
+                renderProducts();
+            }, (error) => {
+                console.log("Database fetch error: ", error);
+            });
+        }
+
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
             
-            let localProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-            let allProducts = [...localProducts, ...defaultProducts];
             let searchText = document.getElementById('searchInput').value.toLowerCase();
 
-            allProducts.forEach(prod => {
+            if(firebaseProducts.length === 0) {
+                grid.innerHTML = `<p style="text-align:center; width:100%; padding:20px; font-style:italic; color:#777;">No items uploaded yet. Tap '+ SELL' to add clothes globally!</p>`;
+                return;
+            }
+
+            firebaseProducts.forEach(prod => {
                 const matchesCategory = (currentCategory === 'all' || prod.category === currentCategory);
                 const matchesSearch = prod.title.toLowerCase().includes(searchText);
 
@@ -450,16 +464,13 @@
                     let card = document.createElement('div');
                     card.className = 'product-card';
                     
-                    let badgeHTML = prod.badge ? `<span class="badge">${prod.badge}</span>` : '';
-                    let deleteHTML = prod.id.startsWith('c') ? `<button class="delete-btn" onclick="deleteProduct('${prod.id}')">&times;</button>` : '';
-
                     card.innerHTML = `
-                        ${badgeHTML}
-                        ${deleteHTML}
+                        <span class="badge">NEW</span>
+                        <button class="delete-btn" onclick="deleteProduct('${prod.id}')">&times;</button>
                         <img src="${prod.img}" alt="${prod.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
                         <div class="product-title">${prod.title}</div>
-                        <div class="rating">${prod.rating || "⭐⭐⭐⭐⭐ (5.0)"}</div>
-                        <div class="review-text">${prod.review || '"Fresh Stock Added!"'}</div>
+                        <div class="rating">⭐⭐⭐⭐⭐ (5.0)</div>
+                        <div class="review-text">"Premium Live Item"</div>
                         <div class="product-price">₹${prod.price}</div>
                         <a href="https://wa.me/917017859728?text=Hello!%20I%20want%20to%20buy%20${encodeURIComponent(prod.title)}%20for%20₹${prod.price}" target="_blank" class="buy-btn">Order on WhatsApp</a>
                     `;
@@ -491,61 +502,45 @@
                 return;
             }
 
-            // Agar user ne gallery se photo select ki hai toh use Base64 string banayenge
             if(fileInput.files.length > 0) {
                 let file = fileInput.files[0];
                 let reader = new FileReader();
-                
                 reader.onloadend = function() {
-                    saveToLocalStorage(title, price, category, reader.result);
+                    uploadToFirebase(title, price, category, reader.result);
                 }
                 reader.readAsDataURL(file);
             } else {
-                // Agar koi photo select nahi ki toh fallback default image use hogi
-                saveToLocalStorage(title, price, category, fallbackImg);
+                uploadToFirebase(title, price, category, fallbackImg);
             }
         }
 
-        function saveToLocalStorage(title, price, category, imgData) {
-            let localProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-            
-            let newProd = {
-                id: "c" + Date.now(),
+        function uploadToFirebase(title, price, category, imgData) {
+            db.collection("products").add({
                 title: title,
                 price: price,
                 category: category,
                 img: imgData,
-                badge: "NEW",
-                review: '"Newly added item via Mobile Camera"',
-                rating: "⭐⭐⭐⭐⭐ (5.0)"
-            };
-
-            localProducts.unshift(newProd);
-            localStorage.setItem('customProducts', JSON.stringify(localProducts));
-
-            // Reset inputs
-            document.getElementById('newTitle').value = '';
-            document.getElementById('newPrice').value = '';
-            document.getElementById('newImgFile').value = '';
-            let label = document.getElementById('fileLabelText');
-            label.innerText = "📸 Choose Image from Camera/Gallery";
-            label.style.background = "";
-            label.style.color = "";
-            
-            closeModal();
-            renderProducts();
+                createdAt: new Date()
+            }).then(() => {
+                document.getElementById('newTitle').value = '';
+                document.getElementById('newPrice').value = '';
+                document.getElementById('newImgFile').value = '';
+                let label = document.getElementById('fileLabelText');
+                label.innerText = "📸 Choose Image from Camera/Gallery";
+                label.style.background = ""; label.style.color = "";
+                closeModal();
+            }).catch(err => alert("Error saving product: " + err + "\n\nTip: Double check if your Firestore Database is created in Test Mode!"));
         }
 
         function deleteProduct(id) {
-            let localProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-            localProducts = localProducts.filter(p => p.id !== id);
-            localStorage.setItem('customProducts', JSON.stringify(localProducts));
-            renderProducts();
+            if(confirm("Are you sure you want to delete this product globally?")) {
+                db.collection("products").doc(id).delete();
+            }
         }
 
         window.onload = function() {
             checkDarkMode();
-            renderProducts();
+            listenToProducts();
         };
     </script>
 </body>
