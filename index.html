@@ -29,6 +29,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
+            padding-bottom: 80px; /* Space for fixed bottom buttons */
         }
         header {
             background-color: var(--header-bg);
@@ -39,7 +40,6 @@
         }
         header h1 { font-size: 26px; }
         
-        /* Dark Mode Button */
         .dark-mode-btn {
             position: absolute;
             right: 15px;
@@ -53,7 +53,6 @@
             font-weight: bold;
         }
 
-        /* Search Bar & Categories */
         .search-container {
             text-align: center;
             margin: 20px auto;
@@ -84,11 +83,10 @@
             font-weight: bold;
         }
 
-        /* Image Slider/Banner */
         .slider {
             max-width: 1200px;
             margin: 0 auto 20px auto;
-            height: 250px;
+            height: 200px;
             background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200') center/cover;
             display: flex;
             align-items: center;
@@ -97,9 +95,8 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
             border-radius: 8px;
         }
-        .slider h2 { font-size: 32px; text-align: center; padding: 10px; }
+        .slider h2 { font-size: 28px; text-align: center; padding: 10px; }
 
-        /* Products Grid */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -162,7 +159,6 @@
             font-weight: bold;
         }
 
-        /* Contact & Info Section */
         .info-section {
             background: var(--card-bg);
             max-width: 1200px;
@@ -177,7 +173,6 @@
         .info-box h3 { margin-bottom: 10px; color: var(--primary-color); }
         .info-box p { margin: 5px 0; line-height: 1.5; }
 
-        /* Footer */
         footer {
             background-color: var(--header-bg);
             color: white;
@@ -187,6 +182,33 @@
             font-size: 14px;
         }
 
+        /* OLX Style Floating SELL Button */
+        .sell-btn-floating {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #002f34;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            border: 4px solid;
+            border-image: linear-gradient(to right, #3a77ff, #002f34, #ffce32) 1;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            z-index: 999;
+        }
+        .sell-btn-floating span {
+            font-size: 22px;
+        }
+
         /* Floating WhatsApp Button */
         .floating-whatsapp {
             position: fixed;
@@ -194,17 +216,72 @@
             right: 20px;
             background: #25d366;
             color: white;
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 28px;
             text-decoration: none;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
             z-index: 1000;
+        }
+
+        /* Sell Form Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .modal-content h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+        .submit-product-btn {
+            width: 100%;
+            background: #002f34;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
             font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
         }
     </style>
 </head>
@@ -300,30 +377,43 @@
         <p>&copy; 2026 Firdos Hosiery. All Rights Reserved. Designed for fast WhatsApp orders.</p>
     </footer>
 
+    <button class="sell-btn-floating" onclick="openModal()">
+        <span>+</span> SELL
+    </button>
+
     <a href="https://wa.me/917017859728" class="floating-whatsapp" target="_blank">💬</a>
 
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3>Add New Product</h3>
+            <input type="text" id="newTitle" placeholder="Product Title (e.g. Graphic T-Shirt)" required>
+            <input type="number" id="newPrice" placeholder="Price in ₹" required>
+            <select id="newCategory">
+                <option value="tshirt">T-Shirts</option>
+                <option value="hoodie">Hoodies</option>
+                <option value="sweatshirt">Sweatshirts</option>
+                <option value="socks">Socks</option>
+            </select>
+            <input type="text" id="newImg" placeholder="Image URL (or leave empty for default)">
+            <button class="submit-product-btn" onclick="addNewProduct()">Post Now</button>
+        </div>
+    </div>
+
     <script>
-        // Dark Mode Toggle Logic
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
         }
 
-        // Search Filter Logic
         function searchProducts() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('product-card');
-            
             for (let i = 0; i < cards.length; i++) {
                 let title = cards[i].querySelector('.product-title').innerText.toLowerCase();
-                if (title.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+                cards[i].style.display = title.includes(input) ? "" : "none";
             }
         }
 
-        // Category Filter Logic
         function filterCategory(category) {
             let cards = document.getElementsByClassName('product-card');
             for (let i = 0; i < cards.length; i++) {
@@ -333,6 +423,50 @@
                     cards[i].style.display = "none";
                 }
             }
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('sellModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('sellModal').style.display = 'none';
+        }
+
+        // Add Product Dynamically
+        function addNewProduct() {
+            let title = document.getElementById('newTitle').value;
+            let price = document.getElementById('newPrice').value;
+            let category = document.getElementById('newCategory').value;
+            let img = document.getElementById('newImg').value || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500';
+
+            if(!title || !price) {
+                alert("Please fill out Title and Price");
+                return;
+            }
+
+            let grid = document.getElementById('productGrid');
+            let newCard = document.createElement('div');
+            newCard.className = 'product-card';
+            newCard.setAttribute('data-category', category);
+
+            newCard.innerHTML = `
+                <span class="badge" style="background: #002f34;">NEW</span>
+                <img src="${img}" alt="${title}">
+                <div class="product-title">${title}</div>
+                <div class="rating">⭐⭐⭐⭐⭐ (5.0)</div>
+                <div class="review-text">"Fresh Stock Added!"</div>
+                <div class="product-price">₹${price}</div>
+                <a href="https://wa.me/917017859728?text=Hello!%20I%20want%20to%20buy%20${encodeURIComponent(title)}" target="_blank" class="buy-btn">Order on WhatsApp</a>
+            `;
+
+            grid.insertBefore(newCard, grid.firstChild);
+            closeModal();
+            
+            // Clear inputs
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newPrice').value = '';
+            document.getElementById('newImg').value = '';
         }
     </script>
 </body>
