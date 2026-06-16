@@ -3,455 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firdos Hosiery</title>
+    <title>Firdos Hosiery — Admin Panel</title>
     <style>
         :root {
-            --bg-color: #f7f8f a;
-            --card-bg: #ffffff;
-            --text-main: #282c3f;
-            --text-muted: #7e818c;
-            --primary-color: #ff3f6c; /* Myntra Pink Touch */
-            --accent-green: #03a685; /* AJIO/Myntra Success Green */
+            --bg-dark: #0b0e14;
+            --panel-bg: #131924;
+            --panel-border: #1e2638;
+            --text-white: #ffffff;
+            --text-grey: #8a99ad;
+            --purple-neon: #7c4dff;
+            --green-glow: #00e676;
+            --red-glow: #ff1744;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 90px;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            padding-bottom: 50px;
         }
 
-        /* Premium Minimal Header */
         header {
-            background-color: #ffffff;
-            padding: 15px;
-            text-align: center;
+            background-color: var(--panel-bg);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--panel-border);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-bottom: 1px solid #f5f5f6;
         }
-        header h1 { 
-            font-size: 20px; 
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #1f222f;
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        /* Clean Search Bar */
-        .search-container {
-            padding: 0 12px;
-            margin: 15px auto;
-            max-width: 600px;
-        }
-        .search-container input {
-            width: 100%;
-            padding: 12px 16px;
+        .logo-box {
+            background: linear-gradient(135deg, var(--purple-neon), #b388ff);
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
-            border: 1px solid #eaeaec;
-            outline: none;
-            background: #ffffff;
-            color: var(--text-main);
-            font-size: 14px;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
-        .search-container input::placeholder {
-            color: #b0b2b8;
+        .brand-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .brand-sub {
+            font-size: 11px;
+            color: var(--text-grey);
+            display: block;
         }
 
-        /* Horizontal Scrolling Categories like AJIO */
-        .categories {
+        .admin-status-btn {
+            background: rgba(124, 77, 255, 0.1);
+            border: 1px solid var(--purple-neon);
+            color: #b388ff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .metric-title {
+            font-size: 11px;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .metric-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .filter-pill-box {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding: 5px 12px 15px 12px;
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            margin-bottom: 25px;
+            padding-bottom: 5px;
         }
-        .categories::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome/Safari */
-        }
-        .cat-btn {
-            background: #ffffff;
-            color: var(--text-main);
+        .pill-btn {
+            background: var(--panel-bg);
+            color: var(--text-grey);
+            border: 1px solid var(--panel-border);
             padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid #eaeaec;
-            cursor: pointer;
             font-size: 13px;
-            font-weight: 500;
+            cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s ease;
         }
-        .cat-btn.active {
-            background: var(--text-main);
-            color: #ffffff;
-            border-color: var(--text-main);
-        }
-
-        /* Main Grid: 2 Columns on Mobile (AJIO/Myntra Style) */
-        .container {
-            padding: 0 8px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns strictly */
-            gap: 8px;
-        }
-        @media (min-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr); /* 4 columns on Laptop */
-                gap: 20px;
-            }
+        .pill-btn.active {
+            background: var(--purple-neon);
+            color: white;
+            border-color: var(--purple-neon);
         }
 
-        /* Premium E-commerce Product Card */
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 0px; /* Sharp modern e-com edges */
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            border: 1px solid #f5f5f6;
-            position: relative;
+        .list-container {
             display: flex;
             flex-direction: column;
-        }
-        
-        /* Transparent Heart/Wishlist Icon */
-        .wishlist-icon {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #9496a0;
-            border: none;
-            z-index: 5;
+            gap: 10px;
         }
 
-        /* Admin Delete Cross */
-        .delete-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            color: #ffffff;
-            border: none;
-            border-radius: 50%;
-            width: 26px;
-            height: 26px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        /* Image Display Box */
-        .product-image-wrapper {
-            width: 100%;
-            padding-top: 130%; /* 3:4 aspect ratio for clothing */
-            position: relative;
-            background: #f9f9f9;
-        }
-        .product-card img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Product Info Block */
-        .product-info {
+        .item-list-row {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
             padding: 12px;
             display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            align-items: center;
+            justify-content: space-between;
         }
-        .brand-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: #000000;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+
+        .item-left-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
         }
-        .product-title {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+
+        .item-img-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .item-name-title {
+            font-size: 14px;
+            font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
-        /* Price Row Like Myntra */
-        .price-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+        .item-meta-tag {
+            font-size: 11px;
+            color: var(--text-grey);
         }
-        .product-price {
+
+        .row-price-txt {
             font-size: 14px;
             font-weight: 700;
-            color: #282c3f;
-        }
-        .original-price {
-            font-size: 11px;
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-        .discount-tag {
-            font-size: 11px;
-            font-weight: 600;
-            color: #ff905a;
+            color: var(--green-glow);
         }
 
-        /* Elegant Order Button */
-        .buy-btn {
-            display: block;
-            background-color: #25d366; /* WhatsApp Green */
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 12px;
-            text-align: center;
-            margin-top: auto;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .row-delete-action {
+            background: rgba(255, 23, 68, 0.1);
+            border: none;
+            color: var(--red-glow);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            display: none;
         }
 
-        /* Modern Floating Sell Button */
-        .sell-btn-floating {
+        .floating-add-trigger {
             position: fixed;
             bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #282c3f;
-            color: #ffffff;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            right: 25px;
+            background: var(--purple-neon);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 24px;
+            display: none;
             cursor: pointer;
-            letter-spacing: 1px;
-            z-index: 99;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
         }
 
-        /* Bottom Minimal Info Section */
-        .info-section {
-            background: #ffffff;
-            padding: 30px 20px;
-            margin-top: 5px;
-            border-top: 1px solid #eaeaec;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            font-size: 13px;
-        }
-        .info-box h3 { margin-bottom: 8px; font-size: 14px; color: #000; font-weight: 600; }
-        .info-box p { color: var(--text-muted); margin: 4px 0; line-height: 1.5; }
-
-        footer {
-            background: #282c3f;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #a9abb3;
-        }
-
-        /* Modal / Add Product Panel */
-        .modal {
+        .custom-overlay-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 7, 10, 0.85);
             z-index: 200;
             justify-content: center;
             align-items: center;
+            padding: 15px;
         }
-        .modal-content {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
+        .modal-body-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 20px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 360px;
             position: relative;
         }
-        .modal-content h3 { margin-bottom: 20px; font-size: 18px; text-align: center; font-weight: 700;}
-        .modal-content input, .modal-content select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 14px;
-            border: 1px solid #d4d5d9;
-            border-radius: 6px;
-            outline: none;
-            font-size: 14px;
+        .modal-body-panel h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
         }
-        .file-label {
+        .modal-body-panel input, .modal-body-panel select {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--panel-border);
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            color: white;
+            outline: none;
+        }
+
+        .dark-file-uploader {
             display: block;
             text-align: center;
-            background: #f5f5f6;
+            background: rgba(124, 77, 255, 0.05);
             padding: 12px;
-            border: 1px dashed #9496a0;
+            border: 1px dashed var(--panel-border);
             border-radius: 6px;
-            margin-bottom: 14px;
-            cursor: pointer;
+            margin-bottom: 15px;
             font-size: 13px;
-            color: var(--text-main);
-            font-weight: 500;
+            color: #b388ff;
+            cursor: pointer;
         }
-        .submit-product-btn {
+
+        .prime-action-btn {
             width: 100%;
-            background: var(--primary-color);
+            background: var(--purple-neon);
             color: white;
-            padding: 14px;
+            padding: 12px;
             border: none;
             border-radius: 6px;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        .submit-product-btn:disabled { background: #d4d5d9; cursor: not-allowed; }
-        .close-modal { position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer; color: #a9abb3; }
+        .prime-action-btn:disabled { background: var(--panel-border); color: var(--text-grey); }
+
+        .modal-dismiss {
+            position: absolute; top: 15px; right: 15px; font-size: 18px; cursor: pointer; color: var(--text-grey);
+        }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 </head>
 <body>
 
     <header>
-        <h1>Firdos Hosiery</h1>
+        <div class="logo-area">
+            <div class="logo-box">F</div>
+            <div>
+                <span class="brand-title">Firdos Hosiery</span>
+                <span class="brand-sub">Control Panel</span>
+            </div>
+        </div>
+        <button class="admin-status-btn" id="adminLogBtn" onclick="triggerAdminAuth()">🔑 Login</button>
     </header>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search brands, products, styles..." onkeyup="filterProducts()">
-    </div>
-
-    <div class="categories">
-        <button class="cat-btn active" onclick="selectCategory('all', this)">All Products</button>
-        <button class="cat-btn" onclick="selectCategory('tshirt', this)">T-Shirts</button>
-        <button class="cat-btn" onclick="selectCategory('hoodie', this)">Hoodies & Jackets</button>
-        <button class="cat-btn" onclick="selectCategory('sweatshirt', this)">Sweatshirts</button>
-        <button class="cat-btn" onclick="selectCategory('socks', this)">Premium Socks</button>
-    </div>
-
     <div class="container">
-        <div class="products-grid" id="productGrid">
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Items</div>
+                <div class="metric-value" id="countTotal">0</div>
             </div>
+            <div class="metric-card">
+                <div class="metric-title">Status</div>
+                <div class="metric-value" id="countStock" style="color:var(--green-glow); font-size:16px; margin-top:5px;">● Connected</div>
+            </div>
+        </div>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Search catalog items..." onkeyup="renderProducts()">
+        </div>
+
+        <div class="filter-pill-box">
+            <button class="pill-btn active" onclick="selectCategory('all', this)">All</button>
+            <button class="pill-btn" onclick="selectCategory('tshirt', this)">T-Shirts</button>
+            <button class="pill-btn" onclick="selectCategory('hoodie', this)">Hoodies</button>
+            <button class="pill-btn" onclick="selectCategory('sweatshirt', this)">Sweatshirts</button>
+            <button class="pill-btn" onclick="selectCategory('socks', this)">Socks</button>
+        </div>
+
+        <div class="list-container" id="productListGrid"></div>
     </div>
 
-    <div class="info-section">
-        <div class="info-box">
-            <h3>📞 Contact Us</h3>
-            <p><strong>WhatsApp:</strong> +91 70178 59728</p>
-            <p><strong>Email:</strong> customercare@firdoshosiery.com</p>
-        </div>
-        <div class="info-box">
-            <h3>📍 Store Address</h3>
-            <p>Firdos Hosiery Wholesale & Retail,</p>
-            <p>Main Bazar, Near Clock Tower,</p>
-            <p>Saharanpur, Uttar Pradesh - 247001</p>
+    <button class="floating-add-trigger" id="adminAddBtn" onclick="openModal('sellModal')">+</button>
+
+    <div class="custom-overlay-modal" id="authModal">
+        <div class="modal-body-panel">
+            <span class="modal-dismiss" onclick="closeModal('authModal')">&times;</span>
+            <h3>Store Admin Gateway</h3>
+            <input type="email" id="authEmail" placeholder="Admin Email ID">
+            <input type="password" id="authPass" placeholder="Security Password">
+            <button class="prime-action-btn" onclick="verifyAdminSession()">Login</button>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Firdos Hosiery. Powered by Cloud Sync.</p>
-    </footer>
-
-    <button class="sell-btn-floating" onclick="openModal()">
-        <span>+</span> ADD ITEM
-    </button>
-
-    <div class="modal" id="sellModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+    <div class="custom-overlay-modal" id="sellModal">
+        <div class="modal-body-panel">
+            <span class="modal-dismiss" onclick="closeModal('sellModal')">&times;</span>
             <h3>Upload New Design</h3>
             <input type="text" id="newTitle" placeholder="Product Title / Name" required>
             <input type="number" id="newPrice" placeholder="Selling Price (₹)" required>
             <select id="newCategory">
                 <option value="tshirt">T-Shirts</option>
-                <option value="hoodie">Hoodies & Jackets</option>
+                <option value="hoodie">Hoodies</option>
                 <option value="sweatshirt">Sweatshirts</option>
-                <option value="socks">Premium Socks</option>
+                <option value="socks">Socks</option>
             </select>
             
-            <label class="file-label" for="newImgFile" id="fileLabelText">📸 Capture from Camera / Gallery</label>
+            <label class="dark-file-uploader" for="newImgFile" id="fileLabelText">📸 Select Image</label>
             <input type="file" id="newImgFile" accept="image/*" style="display: none;" onchange="updateFileName()">
             
-            <button class="submit-product-btn" id="submitBtn" onclick="addNewProduct()">Upload to Catalog</button>
+            <button class="prime-action-btn" id="submitBtn" onclick="addNewProduct()">Upload to Cloud</button>
         </div>
     </div>
 
     <script>
-        // Automatic configuration verified from your console screenshot
         const firebaseConfig = {
             apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOg7D-9vV_gXg8l8",
             authDomain: "firdos-hosiery.firebaseapp.com",
             projectId: "firdos-hosiery",
-            storageBucket: "firdos-hosiery.firebasestorage.app",
+            storageBucket: "firdos-hosiery.appspot.com",
             messagingSenderId: "738069771751",
             appId: "1:738069771751:web:ab4c383e91129b05423fbe"
         };
         
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
 
-        const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500";
+        const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=100";
         let currentCategory = 'all';
         let firebaseProducts = [];
 
-        function openModal() { document.getElementById('sellModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('sellModal').style.display = 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        auth.onAuthStateChanged(user => {
+            const addBtn = document.getElementById('adminAddBtn');
+            const logBtn = document.getElementById('adminLogBtn');
+            if (user) {
+                logBtn.innerText = "🔒 Logout";
+                addBtn.style.display = "flex";
+                toggleDeleteButtons(true);
+            } else {
+                logBtn.innerText = "🔑 Login";
+                addBtn.style.display = "none";
+                toggleDeleteButtons(false);
+            }
+        });
+
+        function triggerAdminAuth() {
+            if(auth.currentUser) {
+                auth.signOut().then(() => alert("Logged out safely."));
+            } else {
+                openModal('authModal');
+            }
+        }
+
+        function verifyAdminSession() {
+            let email = document.getElementById('authEmail').value;
+            let pass = document.getElementById('authPass').value;
+            auth.signInWithEmailAndPassword(email, pass)
+                .then(() => closeModal('authModal'))
+                .catch(err => alert("Error: " + err.message));
+        }
 
         function updateFileName() {
             let fileInput = document.getElementById('newImgFile');
             let label = document.getElementById('fileLabelText');
             if(fileInput.files.length > 0) {
                 label.innerText = "✅ " + fileInput.files[0].name;
-                label.style.background = "#e6f7f4";
-                label.style.color = "#03a685";
-                label.style.borderColor = "#03a685";
             }
         }
 
-        // Live Cloud Stream Listener
         function listenToProducts() {
             db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
                 firebaseProducts = [];
@@ -461,65 +429,55 @@
                     firebaseProducts.push(data);
                 });
                 renderProducts();
-            }, (error) => {
-                console.log("Database Error: ", error);
             });
         }
 
         function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
+            const listGrid = document.getElementById('productListGrid');
+            listGrid.innerHTML = '';
             let searchText = document.getElementById('searchInput').value.toLowerCase();
-
-            if(firebaseProducts.length === 0) {
-                grid.innerHTML = `<p style="text-align:center; grid-column: span 2; padding:40px; font-style:italic; color:#9496a0; font-size:13px;">No premium apparel added yet. Tap 'ADD ITEM' to sync.</p>`;
-                return;
-            }
 
             firebaseProducts.forEach(prod => {
                 const matchesCategory = (currentCategory === 'all' || prod.category === currentCategory);
                 const matchesSearch = prod.title.toLowerCase().includes(searchText);
 
                 if (matchesCategory && matchesSearch) {
-                    let card = document.createElement('div');
-                    card.className = 'product-card';
-                    
-                    // Display original tentative price to simulate clean AJIO style percentage tags
-                    let fauxOriginalPrice = Math.floor(parseInt(prod.price) * 1.4);
-
-                    card.innerHTML = `
-                        <button class="wishlist-icon">🤍</button>
-                        <button class="delete-btn" onclick="deleteProduct('${prod.id}')">&times;</button>
-                        <div class="product-image-wrapper">
-                            <img src="${prod.img}" alt="${prod.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
-                        </div>
-                        <div class="product-info">
-                            <div class="brand-name">Firdos</div>
-                            <div class="product-title">${prod.title}</div>
-                            <div class="price-row">
-                                <span class="product-price">₹${prod.price}</span>
-                                <span class="original-price">₹${fauxOriginalPrice}</span>
-                                <span class="discount-tag">(40% OFF)</span>
+                    let row = document.createElement('div');
+                    row.className = 'item-list-row';
+                    row.innerHTML = `
+                        <div class="item-left-content">
+                            <img class="item-img-preview" src="${prod.img || fallbackImg}">
+                            <div>
+                                <div class="item-name-title">${prod.title}</div>
+                                <div class="item-meta-tag">${prod.category.toUpperCase()}</div>
                             </div>
-                            <a href="https://wa.me/917017859728?text=Hi!%20I'm%20interested%20in%20buying%20Firdos%20${encodeURIComponent(prod.title)}%20for%20₹${prod.price}" target="_blank" class="buy-btn">WhatsApp Order</a>
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <span class="row-price-txt">₹${prod.price}</span>
+                            <button class="row-delete-action" onclick="deleteProduct('${prod.id}', '${prod.storagePath || ''}')">&times;</button>
                         </div>
                     `;
-                    grid.appendChild(card);
+                    listGrid.appendChild(row);
                 }
+            });
+
+            document.getElementById('countTotal').innerText = firebaseProducts.length;
+            if(auth.currentUser) toggleDeleteButtons(true);
+        }
+
+        function toggleDeleteButtons(show) {
+            document.querySelectorAll('.row-delete-action').forEach(btn => {
+                btn.style.display = show ? "block" : "none";
             });
         }
 
         function selectCategory(category, element) {
             currentCategory = category;
-            let buttons = document.getElementsByClassName('cat-btn');
-            for(let btn of buttons) { btn.classList.remove('active'); }
+            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
             renderProducts();
         }
 
-        function filterProducts() { renderProducts(); }
-
-        // Built-in Smart Compressor to fix long value bytes errors
         function addNewProduct() {
             let title = document.getElementById('newTitle').value;
             let price = document.getElementById('newPrice').value;
@@ -527,84 +485,46 @@
             let fileInput = document.getElementById('newImgFile');
             let submitBtn = document.getElementById('submitBtn');
 
-            if(!title || !price) {
-                alert("Please add title and price details.");
-                return;
-            }
+            if(!title || !price || fileInput.files.length === 0) { alert("Please fill all details and choose image."); return; }
 
             submitBtn.disabled = true;
-            submitBtn.innerText = "Compressing & Syncing...";
+            submitBtn.innerText = "Uploading Image to Storage...";
 
-            if(fileInput.files.length > 0) {
-                let file = fileInput.files[0];
-                let reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    let img = new Image();
-                    img.onload = function() {
-                        let canvas = document.createElement('canvas');
-                        let MAX_WIDTH = 550; // Optimized dimension
-                        let MAX_HEIGHT = 700; 
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height) {
-                            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        } else {
-                            if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                        }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        let ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        let compressedDataUrl = canvas.toDataURL("image/jpeg", 0.55); 
-                        uploadToFirebase(title, price, category, compressedDataUrl);
-                    }
-                    img.src = event.target.result;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                uploadToFirebase(title, price, category, fallbackImg);
-            }
-        }
-
-        function uploadToFirebase(title, price, category, imgData) {
-            let submitBtn = document.getElementById('submitBtn');
-            db.collection("products").add({
-                title: title,
-                price: price,
-                category: category,
-                img: imgData,
-                createdAt: new Date()
+            let file = fileInput.files[0];
+            let pathStr = 'product_images/' + Date.now() + '_' + file.name;
+            let storageRef = storage.ref(pathStr);
+            
+            storageRef.put(file).then(snapshot => {
+                return snapshot.ref.getDownloadURL();
+            }).then(downloadURL => {
+                submitBtn.innerText = "Syncing with Database...";
+                return db.collection("products").add({
+                    title: title, price: Number(price), category: category, img: downloadURL, storagePath: pathStr, createdAt: new Date()
+                });
             }).then(() => {
                 document.getElementById('newTitle').value = '';
                 document.getElementById('newPrice').value = '';
                 document.getElementById('newImgFile').value = '';
-                let label = document.getElementById('fileLabelText');
-                label.innerText = "📸 Capture from Camera / Gallery";
-                label.style.background = ""; label.style.borderColor = ""; label.style.color = "";
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Upload to Catalog";
-                closeModal();
+                document.getElementById('fileLabelText').innerText = "📸 Select Image";
+                submitBtn.disabled = false; submitBtn.innerText = "Upload to Cloud";
+                closeModal('sellModal');
+                alert("Product Uploaded Successfully!");
             }).catch(err => {
-                alert("Sync Error: " + err);
+                alert("Upload Failed: " + err.message);
                 submitBtn.disabled = false;
-                submitBtn.innerText = "Upload to Catalog";
+                submitBtn.innerText = "Upload to Cloud";
             });
         }
 
-        function deleteProduct(id) {
-            event.stopPropagation(); // Stops any overlapping clicks
-            if(confirm("Remove this premium listing from catalog?")) {
-                db.collection("products").doc(id).delete();
+        function deleteProduct(id, pathStr) {
+            if(confirm("Delete this product?")) {
+                db.collection("products").doc(id).delete().then(() => {
+                    if(pathStr) storage.ref(pathStr).delete().catch(e => console.log("Storage clean skipped."));
+                }).catch(err => alert("Error: " + err.message));
             }
         }
 
-        window.onload = function() {
-            listenToProducts();
-        };
+        window.onload = function() { listenToProducts(); };
     </script>
 </body>
 </html>
