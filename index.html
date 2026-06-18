@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel — Catalog Manager</title>
+    <title>Apparel Panel — Role Manager</title>
     <style>
         :root {
             --bg-dark: #0b0e14;
@@ -69,6 +69,18 @@
             font-size: 10px;
             color: var(--text-grey);
             display: block;
+        }
+
+        .user-badge-display {
+            background: rgba(0, 230, 118, 0.1);
+            color: var(--green-glow);
+            border: 1px solid var(--green-glow);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            display: none;
+            margin-right: 10px;
         }
 
         .admin-status-btn {
@@ -292,6 +304,15 @@
             outline: none;
         }
 
+        .toggle-auth-mode {
+            font-size: 11px;
+            color: var(--text-grey);
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
         .dark-file-uploader {
             display: block;
             text-align: center;
@@ -337,7 +358,10 @@
                 <span class="brand-sub">Control Center</span>
             </div>
         </div>
-        <button class="admin-status-btn" id="adminLogBtn" onclick="triggerAdminAuth()">🔑 Login</button>
+        <div style="display: flex; align-items: center;">
+            <span class="user-badge-display" id="userRoleBadge">ROLE</span>
+            <button class="admin-status-btn" id="adminLogBtn" onclick="triggerAdminAuth()">🔑 Login / Register</button>
+        </div>
     </header>
 
     <div class="container">
@@ -381,10 +405,11 @@
     <div class="custom-overlay-modal" id="authModal">
         <div class="modal-body-panel">
             <span class="modal-dismiss" onclick="closeModal('authModal')">&times;</span>
-            <h3>Store Admin Gateway</h3>
-            <input type="email" id="authEmail" placeholder="Admin Email ID">
-            <input type="password" id="authPass" placeholder="Security Password">
-            <button class="prime-action-btn" onclick="verifyAdminSession()">Login</button>
+            <h3 id="authModalTitle">Store Gateway</h3>
+            <input type="email" id="authEmail" placeholder="Enter Email ID">
+            <input type="password" id="authPass" placeholder="Enter Password">
+            <button class="prime-action-btn" id="authPrimaryBtn" onclick="submitAuthGate()">Sign In</button>
+            <div class="toggle-auth-mode" id="authToggleText" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
         </div>
     </div>
 
@@ -409,7 +434,6 @@
     </div>
 
     <script>
-        // Exact Configuration from your Firebase Screen
         const firebaseConfig = {
             apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOGr93yq0QBQzmCk",
             authDomain: "firdos-hosiery.firebaseapp.com",
@@ -427,6 +451,7 @@
         const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=100";
         let currentCategory = 'all';
         let firebaseProducts = [];
+        let isLoginMode = true;
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -434,12 +459,29 @@
         auth.onAuthStateChanged(user => {
             const addBtn = document.getElementById('adminAddBtn');
             const logBtn = document.getElementById('adminLogBtn');
+            const roleBadge = document.getElementById('userRoleBadge');
+
             if (user) {
                 logBtn.innerText = "🔒 Logout";
-                addBtn.style.display = "flex";
-                toggleDeleteButtons(true);
+                roleBadge.style.display = "inline-block";
+                
+                // Hardcoded Admin Identification Check
+                if(user.email === 'admin@gmail.com') {
+                    roleBadge.innerText = "👑 ADMIN";
+                    roleBadge.style.borderColor = "#7c4dff";
+                    roleBadge.style.color = "#b388ff";
+                    addBtn.style.display = "flex";
+                    toggleDeleteButtons(true);
+                } else {
+                    roleBadge.innerText = "👤 USER";
+                    roleBadge.style.borderColor = "#00e676";
+                    roleBadge.style.color = "#00e676";
+                    addBtn.style.display = "none";
+                    toggleDeleteButtons(false);
+                }
             } else {
-                logBtn.innerText = "🔑 Login";
+                logBtn.innerText = "🔑 Login / Register";
+                roleBadge.style.display = "none";
                 addBtn.style.display = "none";
                 toggleDeleteButtons(false);
             }
@@ -449,16 +491,49 @@
             if(auth.currentUser) {
                 auth.signOut().then(() => alert("Logged out safely."));
             } else {
+                isLoginMode = true;
+                resetAuthModalUI();
                 openModal('authModal');
             }
         }
 
-        function verifyAdminSession() {
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            resetAuthModalUI();
+        }
+
+        function resetAuthModalUI() {
+            const title = document.getElementById('authModalTitle');
+            const btn = document.getElementById('authPrimaryBtn');
+            const text = document.getElementById('authToggleText');
+            if(isLoginMode) {
+                title.innerText = "Store Login";
+                btn.innerText = "Sign In";
+                text.innerText = "Don't have an account? Sign Up";
+            } else {
+                title.innerText = "Create Account";
+                btn.innerText = "Register User";
+                text.innerText = "Already have an account? Sign In";
+            }
+        }
+
+        function submitAuthGate() {
             let email = document.getElementById('authEmail').value;
             let pass = document.getElementById('authPass').value;
-            auth.signInWithEmailAndPassword(email, pass)
-                .then(() => closeModal('authModal'))
-                .catch(err => alert("Error: " + err.message));
+            if(!email || !pass) { alert("Please enter both fields."); return; }
+
+            if(isLoginMode) {
+                auth.signInWithEmailAndPassword(email, pass)
+                    .then(() => closeModal('authModal'))
+                    .catch(err => alert("Error: " + err.message));
+            } else {
+                auth.createUserWithEmailAndPassword(email, pass)
+                    .then(() => {
+                        alert("Account successfully created!");
+                        closeModal('authModal');
+                    })
+                    .catch(err => alert("Registration Failed: " + err.message));
+            }
         }
 
         function updateFileName() {
@@ -479,7 +554,7 @@
                 });
                 renderProducts();
             }, (error) => {
-                console.error("Database connection failed: ", error);
+                console.error("Database status error: ", error);
             });
         }
 
@@ -556,7 +631,7 @@
 
             document.getElementById('countTotal').innerText = firebaseProducts.length;
             document.getElementById('countCats').innerText = uniqueCats.size;
-            if(auth.currentUser) toggleDeleteButtons(true);
+            if(auth.currentUser && auth.currentUser.email === 'admin@gmail.com') toggleDeleteButtons(true);
         }
 
         function toggleDeleteButtons(show) {
@@ -620,5 +695,4 @@
 
         window.onload = function() { listenToProducts(); };
     </script>
-</body>
-</html>
+</b
