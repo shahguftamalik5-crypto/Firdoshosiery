@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firdos Hosiery — Admin Panel</title>
+    <title>Admin Panel — Catalog Manager</title>
     <style>
         :root {
             --bg-dark: #0b0e14;
@@ -331,10 +331,10 @@
 
     <header>
         <div class="logo-area">
-            <div class="logo-badge">FH</div>
+            <div class="logo-badge">AP</div>
             <div>
-                <span class="brand-title">Firdos Hosiery</span>
-                <span class="brand-sub">Control Panel</span>
+                <span class="brand-title">Apparel Panel</span>
+                <span class="brand-sub">Control Center</span>
             </div>
         </div>
         <button class="admin-status-btn" id="adminLogBtn" onclick="triggerAdminAuth()">🔑 Login</button>
@@ -409,7 +409,7 @@
     </div>
 
     <script>
-        // Updated Real & Match Config From Your Screen
+        // Exact Configuration from your Firebase Screen
         const firebaseConfig = {
             apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOGr93yq0QBQzmCk",
             authDomain: "firdos-hosiery.firebaseapp.com",
@@ -479,7 +479,7 @@
                 });
                 renderProducts();
             }, (error) => {
-                console.error("Database status error: ", error);
+                console.error("Database connection failed: ", error);
             });
         }
 
@@ -512,7 +512,7 @@
                     let metaBox = document.createElement('div');
                     let titleDiv = document.createElement('div');
                     titleDiv.className = 'item-name-title';
-                    titleDiv.textContent = prod.title; // XSS Secure
+                    titleDiv.textContent = prod.title;
 
                     let categoryDiv = document.createElement('div');
                     categoryDiv.className = 'item-meta-tag';
