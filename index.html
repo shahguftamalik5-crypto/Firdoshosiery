@@ -3,696 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apparel Panel — Role Manager</title>
+    <title>Firdos Hosiery | Quality Garments</title>
     <style>
         :root {
-            --bg-dark: #0b0e14;
-            --panel-bg: #131924;
-            --panel-border: #1e2638;
-            --text-white: #ffffff;
-            --text-grey: #8a99ad;
-            --purple-neon: #7c4dff;
-            --purple-glow: rgba(124, 77, 255, 0.2);
-            --green-glow: #00e676;
-            --red-glow: #ff1744;
+            --primary: #b91c1c; /* Deep Red Theme */
+            --secondary: #1e293b;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            padding-bottom: 50px;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        header {
-            background-color: var(--panel-bg);
-            padding: 10px 16px;
+        /* Navbar */
+        nav {
+            background-color: white;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--panel-border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
-        }
-        
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-badge {
-            background: linear-gradient(135deg, #00f2fe, var(--purple-neon));
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-            letter-spacing: -1px;
-        }
-        .brand-title {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .brand-sub {
-            font-size: 10px;
-            color: var(--text-grey);
-            display: block;
+            z-index: 1000;
         }
 
-        .user-badge-display {
-            background: rgba(0, 230, 118, 0.1);
-            color: var(--green-glow);
-            border: 1px solid var(--green-glow);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 10px;
+        nav .logo {
+            font-size: 1.5rem;
             font-weight: bold;
-            display: none;
-            margin-right: 10px;
+            color: var(--primary);
         }
 
-        .admin-status-btn {
-            background: rgba(124, 77, 255, 0.1);
-            border: 1px solid var(--purple-neon);
-            color: #b388ff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .admin-status-btn:hover {
-            background: var(--purple-neon);
-            color: white;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 15px 12px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .metric-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
-        .metric-title {
-            font-size: 10px;
-            color: var(--text-grey);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-        .metric-value {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .search-wrapper input {
-            width: 100%;
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            padding: 10px 14px;
-            border-radius: 8px;
-            color: white;
-            outline: none;
-            font-size: 13px;
-            margin-bottom: 15px;
-            transition: border-color 0.2s;
-        }
-        .search-wrapper input:focus { border-color: var(--purple-neon); }
-
-        .filter-pill-box {
+        nav ul {
             display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            margin-bottom: 20px;
-            padding-bottom: 4px;
-        }
-        .filter-pill-box::-webkit-scrollbar { display: none; }
-
-        .pill-btn {
-            background: var(--panel-bg);
-            color: var(--text-grey);
-            border: 1px solid var(--panel-border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-        .pill-btn.active {
-            background: var(--purple-neon);
-            color: white;
-            border-color: var(--purple-neon);
-            box-shadow: 0 2px 8px var(--purple-glow);
+            list-style: none;
+            gap: 20px;
         }
 
-        .list-container {
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 60vh;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-
-        .item-list-row {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-        .item-list-row:hover {
-            transform: translateY(-3px);
-            border-color: var(--purple-neon);
-            box-shadow: 0 4px 12px rgba(124, 77, 255, 0.15);
-        }
-
-        .item-left-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .item-img-preview {
-            width: 44px;
-            height: 44px;
-            border-radius: 6px;
-            object-fit: cover;
-            background: #000;
-        }
-
-        .item-name-title {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .item-meta-tag {
-            font-size: 10px;
-            color: var(--text-grey);
-        }
-
-        .row-price-txt {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--green-glow);
-        }
-
-        .row-delete-action {
-            background: rgba(255, 23, 68, 0.1);
-            border: none;
-            color: var(--red-glow);
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-left: 8px;
-            display: none;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .row-delete-action:hover { background: var(--red-glow); color: white; transform: scale(1.1); }
-
-        .status-placeholder-box {
-            text-align: center;
-            padding: 40px 20px;
-            background: var(--panel-bg);
-            border: 1px dashed var(--panel-border);
-            border-radius: 12px;
-            color: var(--text-grey);
-        }
-        .placeholder-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .floating-add-trigger {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: var(--purple-neon);
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: none;
-            font-size: 22px;
-            display: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
-            transition: transform 0.2s;
-        }
-        .floating-add-trigger:hover { transform: scale(1.05) rotate(90deg); }
-
-        .custom-overlay-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 7, 10, 0.85);
-            z-index: 200;
             justify-content: center;
             align-items: center;
-            padding: 15px;
-        }
-        .modal-body-panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
+            text-align: center;
+            color: white;
             padding: 20px;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 360px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #991b1b;
+        }
+
+        /* Products Section */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
             position: relative;
         }
-        .modal-body-panel h3 { margin-bottom: 15px; font-size: 15px; }
-        .modal-body-panel input, .modal-body-panel select {
-            width: 100%;
-            background: var(--bg-dark);
-            border: 1px solid var(--panel-border);
-            padding: 10px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            color: white;
-            outline: none;
-        }
 
-        .toggle-auth-mode {
-            font-size: 11px;
-            color: var(--text-grey);
-            text-align: center;
-            margin-top: 10px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .dark-file-uploader {
+        .section-title::after {
+            content: '';
             display: block;
-            text-align: center;
-            background: rgba(124, 77, 255, 0.05);
-            padding: 12px;
-            border: 1px dashed var(--panel-border);
-            border-radius: 6px;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 10px auto 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            height: 250px;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
             margin-bottom: 15px;
-            font-size: 13px;
-            color: #b388ff;
-            cursor: pointer;
         }
 
-        .prime-action-btn {
-            width: 100%;
-            background: var(--purple-neon);
+        .price-tag {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
             color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
         }
-        .prime-action-btn:disabled { background: var(--panel-border); color: var(--text-grey); }
 
-        .modal-dismiss {
-            position: absolute; top: 15px; right: 15px; font-size: 18px; cursor: pointer; color: var(--text-grey);
+        footer p {
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
     </style>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 </head>
 <body>
 
-    <header>
-        <div class="logo-area">
-            <div class="logo-badge">AP</div>
-            <div>
-                <span class="brand-title">Apparel Panel</span>
-                <span class="brand-sub">Control Center</span>
-            </div>
-        </div>
-        <div style="display: flex; align-items: center;">
-            <span class="user-badge-display" id="userRoleBadge">ROLE</span>
-            <button class="admin-status-btn" id="adminLogBtn" onclick="triggerAdminAuth()">🔑 Login / Register</button>
-        </div>
-    </header>
+    <!-- Header Navigation -->
+    <nav>
+        <div class="logo">Firdos Hosiery</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="https://github.com/farhad-web-dev/my-portfolio-" target="_blank">Portfolio</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-title">Total Items</div>
-                <div class="metric-value" id="countTotal">...</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">Categories</div>
-                <div class="metric-value" id="countCats">...</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">Status</div>
-                <div class="metric-value" id="countStock" style="color:var(--green-glow); font-size:12px; margin-top:3px;">● Live</div>
-            </div>
-        </div>
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>Premium Hosiery Collection</h1>
+        <p>Discover ultimate comfort and premium quality innerwear & casual garments crafted for everyday wear.</p>
+        <a href="#products" class="btn">Explore Shop</a>
+    </section>
 
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="Search catalog items..." onkeyup="renderProducts()">
-        </div>
-
-        <div class="filter-pill-box">
-            <button class="pill-btn active" onclick="selectCategory('all', this)">All</button>
-            <button class="pill-btn" onclick="selectCategory('tshirt', this)">T-Shirts</button>
-            <button class="pill-btn" onclick="selectCategory('hoodie', this)">Hoodies</button>
-            <button class="pill-btn" onclick="selectCategory('sweatshirt', this)">Sweatshirts</button>
-            <button class="pill-btn" onclick="selectCategory('socks', this)">Socks</button>
-        </div>
-
-        <div class="list-container" id="productListGrid">
-            <div class="status-placeholder-box">
-                <span class="placeholder-icon">⏳</span>
-                <p>Syncing cloud inventory...</p>
-            </div>
-        </div>
-    </div>
-
-    <button class="floating-add-trigger" id="adminAddBtn" onclick="openModal('sellModal')">+</button>
-
-    <div class="custom-overlay-modal" id="authModal">
-        <div class="modal-body-panel">
-            <span class="modal-dismiss" onclick="closeModal('authModal')">&times;</span>
-            <h3 id="authModalTitle">Store Gateway</h3>
-            <input type="email" id="authEmail" placeholder="Enter Email ID">
-            <input type="password" id="authPass" placeholder="Enter Password">
-            <button class="prime-action-btn" id="authPrimaryBtn" onclick="submitAuthGate()">Sign In</button>
-            <div class="toggle-auth-mode" id="authToggleText" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
-        </div>
-    </div>
-
-    <div class="custom-overlay-modal" id="sellModal">
-        <div class="modal-body-panel">
-            <span class="modal-dismiss" onclick="closeModal('sellModal')">&times;</span>
-            <h3>Upload New Design</h3>
-            <input type="text" id="newTitle" placeholder="Product Title / Name" required>
-            <input type="number" id="newPrice" placeholder="Selling Price (₹)" required>
-            <select id="newCategory">
-                <option value="tshirt">T-Shirts</option>
-                <option value="hoodie">Hoodies</option>
-                <option value="sweatshirt">Sweatshirts</option>
-                <option value="socks">Socks</option>
-            </select>
-            
-            <label class="dark-file-uploader" for="newImgFile" id="fileLabelText">📸 Select Image</label>
-            <input type="file" id="newImgFile" accept="image/*" style="display: none;" onchange="updateFileName()">
-            
-            <button class="prime-action-btn" id="submitBtn" onclick="addNewProduct()">Upload to Cloud</button>
-        </div>
-    </div>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCWIR7IzPpla4DJj9GyOGr93yq0QBQzmCk",
-            authDomain: "firdos-hosiery.firebaseapp.com",
-            projectId: "firdos-hosiery",
-            storageBucket: "firdos-hosiery.firebasestorage.app",
-            messagingSenderId: "738069771751",
-            appId: "1:738069771751:web:ab4c383c6397bc4780f942"
-        };
+    <!-- Main Content / Products -->
+    <div class="container" id="products">
+        <h2 class="section-title">Featured Categories</h2>
         
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const storage = firebase.storage();
-
-        const fallbackImg = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=100";
-        let currentCategory = 'all';
-        let firebaseProducts = [];
-        let isLoginMode = true;
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        auth.onAuthStateChanged(user => {
-            const addBtn = document.getElementById('adminAddBtn');
-            const logBtn = document.getElementById('adminLogBtn');
-            const roleBadge = document.getElementById('userRoleBadge');
-
-            if (user) {
-                logBtn.innerText = "🔒 Logout";
-                roleBadge.style.display = "inline-block";
-                
-                // Hardcoded Admin Identification Check
-                if(user.email === 'admin@gmail.com') {
-                    roleBadge.innerText = "👑 ADMIN";
-                    roleBadge.style.borderColor = "#7c4dff";
-                    roleBadge.style.color = "#b388ff";
-                    addBtn.style.display = "flex";
-                    toggleDeleteButtons(true);
-                } else {
-                    roleBadge.innerText = "👤 USER";
-                    roleBadge.style.borderColor = "#00e676";
-                    roleBadge.style.color = "#00e676";
-                    addBtn.style.display = "none";
-                    toggleDeleteButtons(false);
-                }
-            } else {
-                logBtn.innerText = "🔑 Login / Register";
-                roleBadge.style.display = "none";
-                addBtn.style.display = "none";
-                toggleDeleteButtons(false);
-            }
-        });
-
-        function triggerAdminAuth() {
-            if(auth.currentUser) {
-                auth.signOut().then(() => alert("Logged out safely."));
-            } else {
-                isLoginMode = true;
-                resetAuthModalUI();
-                openModal('authModal');
-            }
-        }
-
-        function toggleAuthMode() {
-            isLoginMode = !isLoginMode;
-            resetAuthModalUI();
-        }
-
-        function resetAuthModalUI() {
-            const title = document.getElementById('authModalTitle');
-            const btn = document.getElementById('authPrimaryBtn');
-            const text = document.getElementById('authToggleText');
-            if(isLoginMode) {
-                title.innerText = "Store Login";
-                btn.innerText = "Sign In";
-                text.innerText = "Don't have an account? Sign Up";
-            } else {
-                title.innerText = "Create Account";
-                btn.innerText = "Register User";
-                text.innerText = "Already have an account? Sign In";
-            }
-        }
-
-        function submitAuthGate() {
-            let email = document.getElementById('authEmail').value;
-            let pass = document.getElementById('authPass').value;
-            if(!email || !pass) { alert("Please enter both fields."); return; }
-
-            if(isLoginMode) {
-                auth.signInWithEmailAndPassword(email, pass)
-                    .then(() => closeModal('authModal'))
-                    .catch(err => alert("Error: " + err.message));
-            } else {
-                auth.createUserWithEmailAndPassword(email, pass)
-                    .then(() => {
-                        alert("Account successfully created!");
-                        closeModal('authModal');
-                    })
-                    .catch(err => alert("Registration Failed: " + err.message));
-            }
-        }
-
-        function updateFileName() {
-            let fileInput = document.getElementById('newImgFile');
-            let label = document.getElementById('fileLabelText');
-            if(fileInput.files.length > 0) {
-                label.innerText = "✅ " + fileInput.files[0].name;
-            }
-        }
-
-        function listenToProducts() {
-            db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-                firebaseProducts = [];
-                snapshot.forEach((doc) => {
-                    let data = doc.data();
-                    data.id = doc.id;
-                    firebaseProducts.push(data);
-                });
-                renderProducts();
-            }, (error) => {
-                console.error("Database status error: ", error);
-            });
-        }
-
-        function renderProducts() {
-            const listGrid = document.getElementById('productListGrid');
-            listGrid.innerHTML = '';
-            let searchText = document.getElementById('searchInput').value.toLowerCase();
-            let visibleCount = 0;
-            let uniqueCats = new Set();
-
-            firebaseProducts.forEach(prod => {
-                uniqueCats.add(prod.category);
-                const matchesCategory = (currentCategory === 'all' || prod.category === currentCategory);
-                const matchesSearch = prod.title.toLowerCase().includes(searchText);
-
-                if (matchesCategory && matchesSearch) {
-                    visibleCount++;
-                    
-                    let row = document.createElement('div');
-                    row.className = 'item-list-row';
-
-                    let leftContent = document.createElement('div');
-                    leftContent.className = 'item-left-content';
-
-                    let img = document.createElement('img');
-                    img.className = 'item-img-preview';
-                    img.src = prod.img || fallbackImg;
-                    img.setAttribute('loading', 'lazy');
-
-                    let metaBox = document.createElement('div');
-                    let titleDiv = document.createElement('div');
-                    titleDiv.className = 'item-name-title';
-                    titleDiv.textContent = prod.title;
-
-                    let categoryDiv = document.createElement('div');
-                    categoryDiv.className = 'item-meta-tag';
-                    categoryDiv.textContent = prod.category.toUpperCase();
-
-                    metaBox.appendChild(titleDiv);
-                    metaBox.appendChild(categoryDiv);
-                    leftContent.appendChild(img);
-                    leftContent.appendChild(metaBox);
-
-                    let rightContent = document.createElement('div');
-                    rightContent.style.display = 'flex';
-                    rightContent.style.alignItems = 'center';
-
-                    let priceSpan = document.createElement('span');
-                    priceSpan.className = 'row-price-txt';
-                    priceSpan.textContent = `₹${Number(prod.price).toLocaleString('en-IN')}`;
-
-                    let delBtn = document.createElement('button');
-                    delBtn.className = 'row-delete-action';
-                    delBtn.textContent = '🗑️';
-                    delBtn.onclick = () => deleteProduct(prod.id, prod.storagePath || '');
-
-                    rightContent.appendChild(priceSpan);
-                    rightContent.appendChild(delBtn);
-
-                    row.appendChild(leftContent);
-                    row.appendChild(rightContent);
-                    listGrid.appendChild(row);
-                }
-            });
-
-            if (visibleCount === 0) {
-                listGrid.innerHTML = `
-                    <div class="status-placeholder-box">
-                        <span class="placeholder-icon">📦</span>
-                        <p>No designs found. Add your first product!</p>
-                    </div>
-                `;
-            }
-
-            document.getElementById('countTotal').innerText = firebaseProducts.length;
-            document.getElementById('countCats').innerText = uniqueCats.size;
-            if(auth.currentUser && auth.currentUser.email === 'admin@gmail.com') toggleDeleteButtons(true);
-        }
-
-        function toggleDeleteButtons(show) {
-            document.querySelectorAll('.row-delete-action').forEach(btn => {
-                btn.style.display = show ? "block" : "none";
-            });
-        }
-
-        function selectCategory(category, element) {
-            currentCategory = category;
-            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            renderProducts();
-        }
-
-        function addNewProduct() {
-            let title = document.getElementById('newTitle').value;
-            let price = document.getElementById('newPrice').value;
-            let category = document.getElementById('newCategory').value;
-            let fileInput = document.getElementById('newImgFile');
-            let submitBtn = document.getElementById('submitBtn');
-
-            if(!title || !price || fileInput.files.length === 0) { alert("Please fill all details and choose image."); return; }
-
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Uploading Image to Storage...";
-
-            let file = fileInput.files[0];
-            let pathStr = 'product_images/' + Date.now() + '_' + file.name;
-            let storageRef = storage.ref(pathStr);
+        <div class="product-grid">
             
-            storageRef.put(file).then(snapshot => {
-                return snapshot.ref.getDownloadURL();
-            }).then(downloadURL => {
-                submitBtn.innerText = "Syncing with Database...";
-                return db.collection("products").add({
-                    title: title, price: Number(price), category: category, img: downloadURL, storagePath: pathStr, createdAt: new Date()
-                });
-            }).then(() => {
-                document.getElementById('newTitle').value = '';
-                document.getElementById('newPrice').value = '';
-                document.getElementById('newImgFile').value = '';
-                document.getElementById('fileLabelText').innerText = "📸 Select Image";
-                submitBtn.disabled = false; submitBtn.innerText = "Upload to Cloud";
-                closeModal('sellModal');
-                alert("Product Uploaded Successfully!");
-            }).catch(err => {
-                alert("Upload Failed: " + err.message);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Upload to Cloud";
-            });
-        }
+            <!-- Item 1 -->
+            <div class="product-card">
+                <div class="product-img" style="background: #fee2e2; color: #b91c1c;">Premium Cotton Vests</div>
+                <div class="product-info">
+                    <h3>Classic Men's Vest</h3>
+                    <p>100% combed cotton, breathable fabric for superior all-day comfort.</p>
+                    <div class="price-tag">₹149 onwards</div>
+                    <a href="#" class="btn" style="padding: 6px 20px; font-size: 0.9rem;">View Details</a>
+                </div>
+            </div>
 
-        function deleteProduct(id, pathStr) {
-            if(confirm("Delete this product?")) {
-                db.collection("products").doc(id).delete().then(() => {
-                    if(pathStr) storage.ref(pathStr).delete().catch(e => console.log("Storage clean skipped."));
-                }).catch(err => alert("Error: " + err.message));
-            }
-        }
+            <!-- Item 2 -->
+            <div class="product-card">
+                <div class="product-img" style="background: #f0fdf4; color: #15803d;">Soft Briefs & Trunks</div>
+                <div class="product-info">
+                    <h3>Comfort Fit Trunks</h3>
+                    <p>Micro-fiber elastic waistband with double-layer patch support.</p>
+                    <div class="price-tag">₹199 onwards</div>
+                    <a href="#" class="btn" style="padding: 6px 20px; font-size: 0.9rem;">View Details</a>
+                </div>
+            </div>
 
-        window.onload = function() { listenToProducts(); };
-    </script>
-</b
+            <!-- Item 3 -->
+            <div class="product-card">
+                <div class="product-img" style="background: #eff6ff; color: #1d4ed8;">Premium Cotton Socks</div>
+                <div class="product-info">
+                    <h3>All-Season Sports Socks</h3>
+                    <p>Cushioned sole with moisture-wicking tech to keep feet fresh.</p>
+                    <div class="price-tag">₹99 onwards</div>
+                    <a href="#" class="btn" style="padding: 6px 20px; font-size: 0.9rem;">View Details</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Firdos Hosiery. All Rights Reserved.</p>
+        <p style="margin-top: 5px; font-size: 0.8rem;">Developed by <a href="https://github.com/farhad-web-dev" target="_blank" style="color: white; text-decoration: underline;">farhad-web-dev</a></p>
+    </footer>
+
+</body>
+</html>
